@@ -1,0 +1,36 @@
+.paragrafo-centrato {
+    text-align: center;
+}
+
+div a {
+    color: grey;
+}
+
+.altezza-card {
+    height: 250px;
+}
+
+.testo-grassetto {
+    font-weight: bold;
+}
+
+.testo-grigio {
+    color: grey;
+}
+
+.sfondo-grigio {
+    background-color: #E6EEF0;
+}
+
+.sfondo-grigio-chiaro {
+    background-color: #75818D;
+}
+
+.card {
+    margin: auto;
+    width: 400px;
+}
+
+.testo-bianco {
+    color: white;
+}
