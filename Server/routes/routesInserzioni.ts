@@ -168,8 +168,8 @@ module.exports = function (app, auth) {
             }
             //verifico che il prezzo attuale siaminore di quello di riserva
             if (Number(req.body.prezzoIniziale) < Number(req.body.prezzoRiserva)) {
-                //verifico che la data di fine sia maggiore di quella di inizio e quella di fine maggiore di quella attuale
-                if (new Date(req.body.dataFine) > new Date(req.body.dataInizio) && new Date(req.body.dataFine) > new Date()) {
+                //verifico che la data di fine sia maggiore di quella di inizio
+                if (new Date(req.body.dataFine) > new Date(req.body.dataInizio)) {
                     //verifico che ci sia un utente con quell id
                     user.getModelloUser().findOne({ idUser: req.body.utente }).then((u) => {
                         //se l utente trovato e valido ed è uno studente
