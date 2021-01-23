@@ -33,7 +33,6 @@ export class Utente {
     isStudente(): boolean {
         var flag: number = 0;
         this.ruolo.forEach((ruoloSingolo) => {
-            console.log("studente " + JSON.stringify(ruoloSingolo));
             if (ruoloSingolo === "Studente") {
                 flag = 1;
             }
@@ -46,7 +45,6 @@ export class Utente {
     isModeratore(): boolean {
         var flag: number = 0;
         this.ruolo.forEach((ruoloSingolo) => {
-            console.log("studente " + JSON.stringify(ruoloSingolo));
             if (ruoloSingolo === "Moderatore") {
                 flag = 1;
             }
