@@ -72,7 +72,6 @@ module.exports = function (app, auth) {
     app.put("/moderatori", auth, (req, res, next) => {
         console.log("ENDPOINT PUT /moderatori".yellow);
         //registrazione moderatori solo su invito e quindi bisogna verificare di essere moderatori
-        console.log(user.newUser(req.user));
         if (user.newUser(req.user).hasModeratore()) {
             //creo l utente con i dati passati nel body
             var u = user.newUser(req.body);
