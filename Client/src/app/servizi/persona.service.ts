@@ -116,7 +116,6 @@ export class PersonaService {
 
   //funzione per ottenere l utente dallo username
   public getUtenteById(idUtente: number): Observable<any> {
-    console.log("id utente: " + JSON.stringify(idUtente));
     const options = {
       headers: new HttpHeaders({
         "authorization": "Bearer " + this.getToken(),
