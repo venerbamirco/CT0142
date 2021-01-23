@@ -378,7 +378,7 @@ module.exports = function (app, auth) {
                     indiciUtenti.push(utente.idUser);
                 });
                 //quando ho finito di filtrare anche tutti gli utenti posso filtrare le inserzioni basandomi anche sui 2 array di indici trovati
-                inserzione.getModelloInserzione().find({ $and: [filtroIdInserzione, { libro: { $in: indiciLibri }, $or: [{ "utente": { $in: indiciUtenti } }, { "utentePrezzoAttuale": { $in: indiciUtenti } }], "prezzoAttuale": { $gte: (typeof (req.query.prezzoAttualeMinimo) !== "undefined" ? Number(req.query.prezzoAttualeMinimo.toString()) : 0), $lte: (typeof (req.query.prezzoAttualeMassimo) !== "undefined" ? Number(req.query.prezzoAttualeMassimo.toString()) : 9999) } }] }).then((inserzioni) => {
+                inserzione.getModelloInserzione().find({ $and: [filtroIdInserzione, { libro: { $in: indiciLibri }, "utente": { $in: indiciUtenti }, "prezzoAttuale": { $gte: (typeof (req.query.prezzoAttualeMinimo) !== "undefined" ? Number(req.query.prezzoAttualeMinimo.toString()) : 0), $lte: (typeof (req.query.prezzoAttualeMassimo) !== "undefined" ? Number(req.query.prezzoAttualeMassimo.toString()) : 9999) } }] }).then((inserzioni) => {
                     //restituisco la lista delle inserzioni e per vedere se risulto vincitore basta confrontare l utente dell ultim offerta con l id di quello loggato e se la data di oggi è maggiore di quella di fine inserzione
                     console.log("FINE ENDPOINT GET /inserzioni ".blue);
                     return res.status(200).json({ statusCode: 200, endpoint: "/inserzioni", method: "get", error: false, message: "Estrazione inserzioni effettuata", reasons: null, inserzioni: inserzioni });
