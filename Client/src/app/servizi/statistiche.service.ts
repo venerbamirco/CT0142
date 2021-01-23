@@ -25,7 +25,6 @@ export class StatisticheService {
         "Content-Type": "application/json"
       })
     };
-    console.log(this.us.getToken());
     return this.http.get(this.url + "/statistiche", options).pipe(
       tap((data) => {
       })
