@@ -16,6 +16,7 @@ function createWindow() {
     });
 
     mainWindow.loadFile('./dist/index.html');
+    //abbiamo inserito questo per poter vedere eventuali eccezioni sollevate
     mainWindow.webContents.openDevTools();
 
 }
