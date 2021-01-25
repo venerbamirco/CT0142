@@ -1,0 +1,70 @@
+<div class="container mt-3">
+    <div class="card">
+        <div class="card-body">
+            <h2>
+                <p class="card-title paragrafo-centrato text-secondary">Registrazione</p>
+            </h2>
+            <br>
+            <form>
+                <div class="form-group">
+                    <input type="text" id="nome" name="nome" #inputNome="ngModel" [(ngModel)]="user.nome" class="form-control sfondo-grigio" placeholder="Nome" value="" required>
+                </div>
+                <div [hidden]="inputNome.valid||inputNome.pristine" class="alert alert-danger">
+                    Nome non valido
+                </div>
+                <div class="form-group">
+                    <input type="text" id="cognome" name="cognome" #inputCognome="ngModel" [(ngModel)]="user.cognome" class="form-control sfondo-grigio" placeholder="Cognome" value="" required>
+                </div>
+                <div [hidden]="inputCognome.valid||inputCognome.pristine" class="alert alert-danger">
+                    Cognome non valido
+                </div>
+                <div class="form-group">
+                    <input type="text" id="username" name="username" #inputUsername="ngModel" [(ngModel)]="user.username" class="form-control sfondo-grigio" placeholder="Username" value="" required>
+                </div>
+                <div [hidden]="inputUsername.valid||inputUsername.pristine" class="alert alert-danger">
+                    Username non valido
+                </div>
+                <div class="form-group">
+                    <input type="text" id="areaGeografica" name="areaGeografica" #inputAreaGeografica="ngModel" [(ngModel)]="user.areaGeografica" class="form-control sfondo-grigio" placeholder="Area geografica" value="" required>
+                </div>
+                <div [hidden]="inputAreaGeografica.valid||inputAreaGeografica.pristine" class="alert alert-danger">
+                    Area geografica non valida
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" #inputEmail="ngModel" [(ngModel)]="user.email" class="form-control sfondo-grigio" placeholder="Email" value="" required>
+                </div>
+                <div [hidden]="inputEmail.valid||inputEmail.pristine" class="alert alert-danger">
+                    Email non valida
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" #inputPassword="ngModel" [(ngModel)]="user.password" class="form-control sfondo-grigio" placeholder="Password" value="" required>
+                </div>
+                <div [hidden]="inputPassword.valid||inputPassword.pristine" class="alert alert-danger">
+                    Password non valida
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confermaPassword" name="confermaPassword" #inputConfermaPassword="ngModel" [(ngModel)]="user.confermaPassword" class="form-control sfondo-grigio" placeholder="Conferma password" value="" required>
+                </div>
+                <div [hidden]="inputConfermaPassword.valid||inputConfermaPassword.pristine" class="alert alert-danger">
+                    Conferma password non valida
+                </div>
+                <div *ngIf="messaggioErrore" class="alert alert-danger" role="alert">
+                    {{messaggioErrore}}
+                </div>
+                <div *ngIf="messaggioConferma" class="alert alert-success" role="alert">
+                    {{messaggioConferma}}
+                </div>
+                <div *ngIf="messaggio" class="alert alert-primary" role="alert">
+                    {{messaggio}}
+                </div>
+                <button type="submit" class="btn btn-lg btn-block sfondo-grigio-chiaro" [disabled]="!inputNome.valid||!inputCognome.valid||!inputUsername.valid||!inputEmail.valid||!inputPassword.valid||!inputConfermaPassword.valid||!inputAreaGeografica.valid" (click)="registrazione();"
+                    (submit)="registrazione();">Registrati</button>
+            </form><br>
+            <div class="paragrafo-centrato testo-grigio">
+                Hai gia un account? <a routerLink="/login">Accedi</a><br>
+                <a routerLink="/passworddimenticata">Hai dimenticato la password?</a><br> Vuoi procedere senza loggarti?
+                <a routerLink="/homepagenonloggato">Guarda le inserzioni</a>
+            </div>
+        </div>
+    </div>
+</div>

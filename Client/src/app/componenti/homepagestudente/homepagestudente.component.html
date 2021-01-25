@@ -1,0 +1,1122 @@
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-3">
+        <!--card per la creazione di inserzioni-->
+        <div class="col-md-4">
+            <div class="card text-center border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Creazione inserzione
+                </div>
+                <div class="card-body text-secondary">
+                    Vuoi inserire una nuova inserzione?
+                    <br><br><button type="button" (click)="inizializzaNuovaInserzione()" class="btn btn-block btn-secondary btn-sm" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#inserimentoinserzione">Inserisci
+                        inserzione</button>
+                </div>
+            </div>
+        </div>
+        <!--card per la lista di inserzioni create-->
+        <div class="col-md-4">
+            <div class="card border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header text-center sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Lista inserzioni create
+                </div>
+                <ul class="list-group list-group-flush overflow-auto">
+                    <li class="list-group-item" *ngFor="let l of libriCreati">
+                        <span *ngFor="let i of inserzioniCreate">
+                            <span *ngIf="i.libro==l.idLibro">
+                                <span class="align-middle text-secondary">Libro: {{l.nome}}</span>
+                        <button type="button" class="btn btn-secondary btn-sm float-right" (click)="setInserzioneCreataSelezionata(i.idInserzione)" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#visualizzazioneinserzionecreata">Dettagli
+                                </button>
+                        </span>
+                        </span>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--card per la lista di inserzioni in vendita-->
+        <div class="col-md-4">
+            <div class="card border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header text-center sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Lista inserzioni in vendita
+                </div>
+                <ul class="list-group list-group-flush overflow-auto">
+                    <li class="list-group-item" *ngFor="let l of libriInVendita">
+                        <span *ngFor="let i of inserzioniInVendita">
+                            <span *ngIf="i.libro==l.idLibro">
+                                <span class="align-middle text-secondary">Libro: {{l.nome}}</span><button type="button" class="btn btn-secondary btn-sm float-right" (click)="setInserzioneInVenditaSelezionata(i.getIdInserzione())"
+                            data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#visualizzazioneinserzioneinvendita">Dettagli</button>
+                        </span>
+                        </span>
+
+                    </li>
+                    <li class="list-group-item">
+                        <button *ngIf="verificaFiltro()" type="button" class="btn btn-block btn-secondary btn-sm float-right" (click)="filtraInserzioni()" data-toggle="modal" data-target="#filtrareinserzioni">Filtra</button>
+                        <button *ngIf="!verificaFiltro()" type="button" class="btn btn-block btn-danger btn-sm float-right" (click)="annullaFiltro()">Annulla
+                            filtro</button>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <!--card per la lista di inserzioni dove l utente loggato ha fatto una proposta-->
+        <div class="col-md-4">
+            <div class="card border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header text-center sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Lista proposte nelle inserzioni
+                </div>
+                <ul class="list-group list-group-flush overflow-auto">
+                    <li class="list-group-item" *ngFor="let l of libriOfferte">
+                        <span *ngFor="let i of inserzioniOfferteFatte">
+                            <span *ngIf="i.libro==l.idLibro">
+                                <span class="align-middle text-secondary">Libro {{l.nome}}</span><button type="button" class="btn btn-sm float-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{i.getPrezzoAttuale()}}€&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        </span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--card per la lista di inserzioni vinte-->
+        <div class="col-md-4">
+            <div class="card border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header text-center sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Lista inserzioni vinte
+                </div>
+                <ul class="list-group list-group-flush overflow-auto">
+                    <li class="list-group-item" *ngFor="let l of libriVinti">
+                        <span *ngFor="let i of inserzioniVinte">
+                            <span *ngIf="i.libro==l.idLibro">
+                                <span class="align-middle text-secondary">Libro: {{l.nome}}</span><button type="button" class="btn btn-secondary btn-sm float-right" (click)="setInserzioneVintaSelezionata(i.idInserzione)" data-dismiss="modal"
+                            aria-label="Close" data-toggle="modal" data-target="#visualizzazioneinserzionevinta">Dettagli</button>
+                        </span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--card per la lista di inserzioni partecipate-->
+        <div class="col-md-4">
+            <div class="card border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header text-center sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Lista inserzioni partecipate
+                </div>
+                <ul class="list-group list-group-flush overflow-auto">
+                    <li class="list-group-item" *ngFor="let l of libriPartecipate">
+                        <span *ngFor="let i of inserzioniPartecipate">
+                            <span *ngIf="i.libro==l.idLibro">
+                                <span class="align-middle text-secondary">Libro: {{l.nome}}</span><button type="button" class="btn btn-secondary btn-sm float-right" (click)="setInserzionePartecipataSelezionata(i.idInserzione)"
+                            data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#visualizzazioneinserzionepartecipata">Dettagli</button>
+                        </span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--card per la lista di inserzioni vendute-->
+        <div class="col-md-4">
+            <div class="card border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header text-center sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Lista inserzioni vendute
+                </div>
+                <ul class="list-group list-group-flush overflow-auto">
+                    <li class="list-group-item" *ngFor="let l of libriVenduti">
+                        <span *ngFor="let i of inserzioniVendute">
+                            <span *ngIf="i.libro==l.idLibro">
+                                <span class="align-middle text-secondary">Libro: {{l.nome}}</span>
+                        <button type="button" class="btn btn-secondary btn-sm float-right" (click)="setInserzioneVendutaSelezionata(i.idInserzione)" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#visualizzazioneinserzionevenduta">Dettagli
+                                </button>
+                        </span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--card per la lista delle chat-->
+        <div class="col-md-4">
+            <div class="card border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header text-center sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Lista chat
+                </div>
+                <ul class="list-group list-group-flush overflow-auto">
+                    <div *ngIf="utenteMessaggioAppenaArrvato" id="alertnuovomessaggio" class="alert alert-secondary alert-dismissible fade show mt-3 ml-3 mr-3" role="alert">
+                        <strong>Nuovo messaggio da: </strong>{{utenteMessaggioAppenaArrvato}}<br>
+                        <strong>Contenuto: </strong>{{messaggioAppenaArrivato}}
+                        <button type="button" class="close" aria-label="Close" (click)="utenteMessaggioAppenaArrvato=''">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <li class="list-group-item" *ngFor="let s of studentiConChat">
+                        <span class="align-middle text-secondary">{{s.getNome()}} {{s.getCognome()}}</span><button type="button" class="btn btn-secondary btn-sm float-right" (click)="setChatSingolaPersona();getListaMessaggiPersona(s.getIdUser())" data-dismiss="modal"
+                            aria-label="Close" data-toggle="modal" data-target="#vistachat">Chat</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--card per l aggiornamento dei dati-->
+        <div class="col-md-4">
+            <div class="card text-center border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Aggiornamento dati
+                </div>
+                <div class="card-body text-secondary">
+                    Vuoi recuperare i dati più aggiornati dal sistema?
+                    <br><br><button type="button" (click)="recuperaDatiAggiornati()" class="btn btn-block btn-secondary btn-sm">Aggiorna dati</button>
+                </div>
+            </div>
+        </div>
+        <!--card per il logout-->
+        <div class="col-md-4">
+            <div class="card text-center border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Logout
+                </div>
+                <div class="card-body text-secondary">
+                    Sei sicuro di voler far il logout? Sarai obbligato a reinserire le credenziali
+                    <br><br><button type="button" class="btn btn-secondary btn-sm btn-block" (click)="logout();" (submit)="logout();">Effettua logout</button>
+                </div>
+            </div>
+        </div>
+        <!--card per la gestione degli errori-->
+        <div class="col-md-4">
+            <div class="card text-center border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Gestione errori
+                </div>
+                <div class="card-body">
+                    <div *ngIf="dettagliErrore.getMessage()" id="alertnuovoerrore" class="alert alert-secondary alert-dismissible fade show mt-3 ml-3 mr-3" role="alert">
+                        <strong>Messaggio: </strong>{{dettagliErrore.getMessage()}}<br>
+                        <strong>Reason: </strong>{{dettagliErrore.getReason()}}
+                        <button type="button" class="close" aria-label="Close" (click)="dettagliErrore.setMessage('');dettagliErrore.setReason('')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--card per mantenere il layout ordinato-->
+        <div class="col-md-4">
+            <div class="card text-center border border-secondary altezza-card mt-3" style="width: 100%;">
+                <div class="card-header sfondo-grigio-chiaro testo-bianco testo-grassetto">
+                    Implementazione futura
+                </div>
+                <div class="card-body text-secondary">
+                    Funzionalita extra
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+
+
+
+<!--modal per l inserimento di una singola inserzione-->
+<div class="modal fade" id="inserimentoinserzione" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Inserimento inserzione</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="#" method="GET">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Libro">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="libro" type="text" #inputLibro="ngModel" [(ngModel)]="libro.nome" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Corso di studi">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="corsodistudi" type="text" #inputCorsoDiStudi="ngModel" [(ngModel)]="libro.corsoDiStudi" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Universita">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="universita" type="text" #inputUniversita="ngModel" [(ngModel)]="libro.universita" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Autore">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="autore" type="text" #inputAutore="ngModel" [(ngModel)]="libro.autore" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Anno di pubblicazione">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="annodipubblicazione" type="number" #inputAnnoDiPubblicazione="ngModel" [(ngModel)]="libro.annoPubblicazione" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Edizione">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="edizione" type="number" #inputEdizione="ngModel" [(ngModel)]="libro.edizione" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Isbn">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="isbn" type="text" #inputIsbn="ngModel" [(ngModel)]="libro.isbn" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data inizio">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="datainizio" type="date" #inputDataInizio="ngModel" [(ngModel)]="inserzione.dataInizio" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data fine">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="datafine" type="date" #inputDataFine="ngModel" [(ngModel)]="inserzione.dataFine" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo iniziale">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="prezzoiniziale" type="number" #inputPrezzoIniziale="ngModel" [(ngModel)]="inserzione.prezzoIniziale" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo riserva">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="prezzoriserva" type="number" #inputPrezzoRiserva="ngModel" [(ngModel)]="inserzione.prezzoRiserva" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div *ngIf="messaggioErrore" class="alert alert-danger mt-3" role="alert">
+                        {{messaggioErrore}}
+                    </div>
+                    <div *ngIf="messaggioConferma" class="alert alert-success mt-3" role="alert">
+                        {{messaggioConferma}}
+                    </div>
+                    <div *ngIf="messaggio" class="alert alert-primary mt-3" role="alert">
+                        {{messaggio}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Annulla</button>
+                    <button type="submit" class="btn btn-success" (click)="inserisciInserzione();" (submit)="inserisciInserzione();" data-dismiss="modal" aria-label="Close">Inserisci</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--modal per filtrare le inserzioni-->
+<div class="modal fade" id="filtrareinserzioni" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Filtraggio inserzione</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="#" method="GET">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Nome libro">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="libro" type="text" #inputNomeLibro="ngModel" [(ngModel)]="filtraggioInserzioni.nomeLibro" class="form-control-plaintext text-center border border-secondary" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Corso di studi">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="corsodistudi" type="text" #inputCorsoDiStudi="ngModel" [(ngModel)]="filtraggioInserzioni.corsoDiStudi" class="form-control-plaintext text-center border border-secondary" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Universita">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="universita" type="text" #inputUniversita="ngModel" [(ngModel)]="filtraggioInserzioni.universita" class="form-control-plaintext text-center border border-secondary" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Area gerografica">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="areaGeografica" type="text" #inputAreaGeografica="ngModel" [(ngModel)]="filtraggioInserzioni.areaGeografica" class="form-control-plaintext text-center border border-secondary" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Venditore">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="venditore" type="text" #inputVenditore="ngModel" [(ngModel)]="filtraggioInserzioni.venditore" class="form-control-plaintext text-center border border-secondary" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo attuale minimo">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="prezzoMinimo" type="number" #inputPrezzoMinimo="ngModel" [(ngModel)]="filtraggioInserzioni.prezzoAttualeMinimo" class="form-control-plaintext text-center border border-secondary" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mt-3 text-center">
+                            <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo attuale massimo">
+                        </div>
+                        <div class="col-md-9 mt-3 text-center">
+                            <input name="prezzoMassimo" type="number" #inputPrezzoMassimo="ngModel" [(ngModel)]="filtraggioInserzioni.prezzoAttualeMassimo" class="form-control-plaintext text-center border border-secondary" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Annulla</button>
+                    <button type="submit" class="btn btn-success" (click)="filtraInserzioni();" (submit)="filtraInserzioni();" data-dismiss="modal" aria-label="Close">Filtra</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--modal per la visualizzazione di una singola inserzione creata e quindi con tutti i dettagli visibili al creatore-->
+<div class="modal fade" id="visualizzazioneinserzionecreata" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Visualizzazione inserzione creata</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div *ngIf="inserzione && utente && libro" class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Libro">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="libro" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.nome}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Corso di studi">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="corsodistudi" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getCorsoDiStudi()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Universita">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="universita" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getUniversita()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Autore">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="autore" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAutore()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Anno di pubblicazione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="annodipubblicazione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAnnoPubblicazione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Edizione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="edizione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getEdizione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Isbn">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="isbn" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getIsbn()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data inizio">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datainizio" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataInizio}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data fine">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datafine" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataFine}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo iniziale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoiniziale" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.getPrezzoIniziale()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo attuale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoattuale" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.getPrezzoAttuale()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo riserva">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoriserva" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.getPrezzoRiserva()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Utente prezzo attuale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="utenteprezzoattuale" type="text" class="form-control-plaintext text-center border border-secondary" value="{{utente.getUsername()}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Esci</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#vistachat" (click)="setChatPubblicaInserzione();getListaMessaggiInserzioneChatPubblica()">Chat
+                    pubblica</button>
+                <button *ngIf="inserzione&&inserzione.isScaduta()&&!inserzione.isVintaGenerico()" type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" (click)="eliminaInserzione()">Elimina</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal per la visualizzazione di una singola inserzione venduta e quindi con tutti i dettagli visibili al creatore-->
+<div class="modal fade" id="visualizzazioneinserzionevenduta" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Visualizzazione inserzione venduta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div *ngIf="inserzione && utente && libro" class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Libro">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="libro" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.nome}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Corso di studi">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="corsodistudi" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getCorsoDiStudi()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Universita">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="universita" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getUniversita()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Autore">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="autore" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAutore()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Anno di pubblicazione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="annodipubblicazione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAnnoPubblicazione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Edizione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="edizione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getEdizione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Isbn">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="isbn" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getIsbn()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data inizio">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datainizio" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataInizio}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data fine">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datafine" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataFine}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo iniziale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoiniziale" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.getPrezzoIniziale()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo attuale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoattuale" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.getPrezzoAttuale()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo riserva">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoriserva" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.getPrezzoRiserva()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Utente prezzo attuale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="utenteprezzoattuale" type="text" class="form-control-plaintext text-center border border-secondary" value="{{utente.getUsername()}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Esci</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#vistachat" (click)="setChatPubblicaInserzione();getListaMessaggiInserzioneChatPubblica()">Chat
+                    pubblica</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal per la visualizzazione di una singola inserzione in vendita e quindi non visibili tutti i parametri al cliente-->
+<div class="modal fade" id="visualizzazioneinserzioneinvendita" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Visualizzazione inserzione in vendita</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div *ngIf="inserzione" class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Utente">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="utente" type="text" class="form-control-plaintext text-center border border-secondary" value="{{utente.getUsername()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Libro">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="libro" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getNome()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Corso di studi">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="corsodistudi" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getCorsoDiStudi()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Universita">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="universita" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getUniversita()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Autore">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="autore" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAutore()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Anno di pubblicazione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="annodipubblicazione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAnnoPubblicazione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Edizione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="edizione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getEdizione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Isbn">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="isbn" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getIsbn()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data inizio">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datainizio" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataInizio}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data fine">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datafine" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataFine}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo attuale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoattuale" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.getPrezzoAttuale()}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Esci</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#vistachat" (click)="setChatPrivataInserzione();getListaMessaggiInserzioneChatPrivata()">Chat
+                    privata</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#vistachat" (click)="setChatPubblicaInserzione();getListaMessaggiInserzioneChatPubblica()">Chat
+                    pubblica</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inserimentopropostainserzione">Proposta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal per la visualizzazione di una singola inserzione partecipata e quindi non visibili tutti i parametri al cliente-->
+<div class="modal fade" id="visualizzazioneinserzionepartecipata" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Visualizzazione inserzione partecipata</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div *ngIf="inserzione" class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Utente">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="utente" type="text" class="form-control-plaintext text-center border border-secondary" value="{{utente.getUsername()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Libro">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="libro" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getNome()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Corso di studi">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="corsodistudi" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getCorsoDiStudi()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Universita">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="universita" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getUniversita()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Autore">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="autore" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAutore()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Anno di pubblicazione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="annodipubblicazione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAnnoPubblicazione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Edizione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="edizione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getEdizione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Isbn">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="isbn" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getIsbn()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data inizio">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datainizio" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataInizio}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data fine">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datafine" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataFine}}" disabled>
+                    </div>
+                </div>
+                <div *ngIf="inserzione&&inserzione.isScaduta()" class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo di riserva">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoRiserva" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.prezzoRiserva}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo attuale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoattuale" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.prezzoAttuale}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">Esci</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#vistachat" (click)="setChatPrivataInserzione();getListaMessaggiInserzioneChatPrivata()">Chat
+                    privata</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#vistachat" (click)="setChatPubblicaInserzione();getListaMessaggiInserzioneChatPubblica()">Chat
+                    pubblica</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal per la visualizzazione di una singola inserzione vinta e quindi non visibili tutti i parametri al cliente-->
+<div class="modal fade" id="visualizzazioneinserzionevinta" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Visualizzazione inserzione vinta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div *ngIf="inserzione" class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Utente">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="utente" type="text" class="form-control-plaintext text-center border border-secondary" value="{{utente.getUsername()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Libro">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="libro" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getNome()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Corso di studi">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="corsodistudi" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getCorsoDiStudi()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Universita">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="universita" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getUniversita()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Autore">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="autore" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAutore()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Anno di pubblicazione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="annodipubblicazione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getAnnoPubblicazione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Edizione">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="edizione" type="number" class="form-control-plaintext text-center border border-secondary" value="{{libro.getEdizione()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Isbn">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="isbn" type="text" class="form-control-plaintext text-center border border-secondary" value="{{libro.getIsbn()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data inizio">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datainizio" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataInizio}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Data fine">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="datafine" type="date" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.dataFine}}" disabled>
+                    </div>
+                </div>
+                <div *ngIf="inserzione&&inserzione.isScaduta()" class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo di riserva">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoRiserva" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.prezzoRiserva}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Prezzo attuale">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="prezzoattuale" type="number" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.prezzoAttuale}}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" aria-label="Close">Esci</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#vistachat" (click)="setChatPrivataInserzione();getListaMessaggiInserzioneChatPrivata()">Chat
+                    privata</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#vistachat" (click)="setChatPubblicaInserzione();getListaMessaggiInserzioneChatPubblica()">Chat
+                    pubblica</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal per l inserimento di una proposta rispetto ad una determinata inserzione-->
+<div class="modal fade" id="inserimentopropostainserzione" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Inserimento proposta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div *ngIf="inserzione" class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Ultima proposta">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="ultimaproposta" type="text" class="form-control-plaintext text-center border border-secondary" value="{{inserzione.getPrezzoAttuale()}}" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mt-3 text-center">
+                        <input type="text" readonly class="form-control-plaintext text-center border border-light" value="Nuova proposta">
+                    </div>
+                    <div class="col-md-9 mt-3 text-center">
+                        <input name="nuovaofferta" #inputNuovaOfferta="ngModel" [(ngModel)]="nuovaOfferta.nuovaOfferta" type="number" class="form-control-plaintext text-center border border-secondary" value="">
+                    </div>
+                </div>
+                <div *ngIf="messaggioErrore" class="alert alert-danger mt-3" role="alert">
+                    {{messaggioErrore}}
+                </div>
+                <div *ngIf="messaggioConferma" class="alert alert-success mt-3" role="alert">
+                    {{messaggioConferma}}
+                </div>
+                <div *ngIf="messaggio" class="alert alert-primary mt-3" role="alert">
+                    {{messaggio}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="$('#inserimentopropostainserzione').modal('hide');$('#visualizzazioneinserzioneinvendita').modal('show');">Annulla</button>
+                <button type="button" class="btn btn-success" (click)="nuovaOffertaSelezionata()" onclick="$('#inserimentopropostainserzione').modal('hide');$('#visualizzazioneinserzioneinvendita').modal('hide');">Invia
+                    proposta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal per la vista delle chat-->
+<div class="modal fade" id="vistachat" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title text">Chat con {{destinatarioMessaggiChatSelezionata}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="azzeramentoFlagChat()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngFor="let lm of listaMessaggi">
+                    <div *ngIf="isDestinatario(lm)" class="col-1"></div>
+                    <div *ngIf="isDestinatario(lm)" class="col-7 mt-3 alert float-left alert-secondary rounded-lg border border-secondary" role="alert">
+                        <div *ngIf="getContenutoMessaggioRiferimento(lm)" style="width: 100%;" class="mt-3 alert float-left alert-light rounded-lg border border-secondary" role="alert">
+                            {{getContenutoMessaggioRiferimento(lm).getContenuto()}}
+                        </div>
+                        <br *ngIf="getContenutoMessaggioRiferimento(lm)">
+                        <div *ngIf="getPersonaNellaChat(lm.getMittente())">
+                            [{{lm.getDataFormatoStringa()}} {{lm.getOraFormatoStringa()}} {{getPersonaNellaChat(lm.getMittente()).getNome()}}]: {{lm.getContenuto()}}
+                        </div>
+                    </div>
+                    <div *ngIf="isDestinatario(lm)" class="col-4 mt-3 alert float-left rounded-lg" role="alert">
+                        <div>
+                            <img onclick="$('#alertmessaggioriferimento').show()" (click)="setMessaggioRiferimento(lm.getIdMessaggio())" style="vertical-align: middle;" src="./assets/img/freccia.png" width="30" height="40">
+                        </div>
+                    </div>
+                    <div *ngIf="isMittente(lm)" class="col-4 mt-3 alert text-right rounded-lg" role="alert">
+                        <div>
+                            <img onclick="$('#alertmessaggioriferimento').show()" (click)="setMessaggioRiferimento(lm.getIdMessaggio())" style="vertical-align: middle;" src="./assets/img/freccia.png" width="30" height="40">
+                        </div>
+                    </div>
+                    <div *ngIf="isMittente(lm)" class="col-7 mt-3 alert float-left alert-secondary rounded-lg border border-secondary" role="alert">
+                        <div *ngIf="getContenutoMessaggioRiferimento(lm)" style="width: 100%;" class="mt-3 alert float-left alert-light rounded-lg border border-secondary" role="alert">
+                            {{getContenutoMessaggioRiferimento(lm).getContenuto()}}
+                        </div>
+                        <br *ngIf="getContenutoMessaggioRiferimento(lm)">
+                        <div>
+                            [{{lm.getDataFormatoStringa()}} {{lm.getOraFormatoStringa()}} Io]: {{lm.getContenuto()}}
+                        </div>
+                    </div>
+                    <div *ngIf="isMittente(lm)" class="col-1"></div>
+                </div>
+                <div class="row mt-3" id="textinviomess">
+                    <div class="col-1"></div>
+                    <div class="col-10">
+                        <div class="row border border-secondary rounded-lg">
+                            <div class="col-10">
+                                <div id="alertmessaggioriferimento" class="mt-3 alert float-left alert-secondary rounded-lg" role="alert" style="width: 100%; display: none;">
+                                    <button type="button" class="close" (click)="setMessaggioRiferimento(0)" onclick="$('#alertmessaggioriferimento').hide()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>{{messaggioRiferimento.getContenuto()}}
+                                </div>
+                                <textarea id="inputMessaggio" rows="4" class="form-control" style="width: 100%;" #inputMessaggio="ngModel" [(ngModel)]="messaggioDaInviare.contenuto" placeholder="Inserisci il tuo messaggio..."></textarea>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" style="width: 100%;" class="mt-3 btn btn-secondary" (click)="inviaMessaggio();setMessaggioRiferimento(0)" onclick="$('#alertmessaggioriferimento').hide(); document.getElementById('inputMessaggio').value='';">Invia</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

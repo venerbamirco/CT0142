@@ -1,0 +1,42 @@
+{
+    "name": "server-taw2020",
+    "main": "main",
+    "version": "1.0.0",
+    "author": "Andrea Penzo 873888 Mirco Venerba 872653",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "colors": "^1.4.0",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-jwt": "^5.3.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "5.10.15",
+        "passport": "^0.4.1",
+        "passport-http": "^0.3.0",
+        "socket.io": "^2.3.0",
+        "concurrently": "^5.2.0",
+        "mongoose-auto-increment": "^5.0.1",
+        "tsc": "^1.20150623.0"
+    },
+    "devDependencies": {
+        "typescript": "^3.8.3",
+        "@types/node": "^13.9.5",
+        "@types/mongoose": "^5.7.8",
+        "@types/express": "^4.17.3",
+        "@types/body-parser": "^1.19.0",
+        "@types/passport": "^1.0.3",
+        "@types/jsonwebtoken": "^8.3.8",
+        "@types/express-jwt": "^0.0.42",
+        "@types/mongoose-auto-increment": "^5.0.30",
+        "@types/socket.io": "^1.4.33",
+        "@types/passport-http": "^0.3.6",
+        "@types/cors": "^2.8.6",
+        "@types/jquery": "^3.5.1"
+    },
+    "scripts": {
+        "compile": "tsc",
+        "start": "concurrently \"mongod --dbpath ./data\" \"node ./src/main.js\""
+    },
+    "private": true
+}
